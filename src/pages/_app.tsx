@@ -2,11 +2,12 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useState } from "react";
 
+// here we have same form but dark style
 function Sign_In( {closeModal }: {closeModal: () => void} ) {
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md">
+          <div className="bg-gray-800 p-8 rounded-lg w-96">
             <h2 className="text-2xl font-bold mb-4">Sign In</h2>
             <form>
               <div className="mb-4">
@@ -17,10 +18,8 @@ function Sign_In( {closeModal }: {closeModal: () => void} ) {
                   type="text"
                   id="username"
                   placeholder="Enter your username"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-2 border rounded-lg bg-gray-700 text-white mb-4"
                 />
-              </div>
-              <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="password">
                   Password
                 </label>
@@ -28,23 +27,23 @@ function Sign_In( {closeModal }: {closeModal: () => void} ) {
                   type="password"
                   id="password"
                   placeholder="Enter your password"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-2 border rounded-lg bg-gray-700 text-white mb-4"
                 />
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="text-white bg-red-600 px-4 py-2 rounded-lg mr-2 hover:bg-red-700"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="text-white bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700"
-                >
-                  Sign In
-                </button>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="mr-2 bg-gray-700 hover:bg-gray-600 font-black py-3 px-6 rounded-lg hover:scale-105 duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className=" large scrolly bg-blue-600 hover:bg-blue-700 font-black py-3 px-6 rounded-lg hover:scale-105 duration-300"
+                  >
+                    Sign In
+                  </button>
+                </div>
               </div>
             </form>
           </div>
