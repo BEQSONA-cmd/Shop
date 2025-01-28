@@ -116,7 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <li className="ml-auto">
             <button
               onClick={openModal}
-              className="text-white text-lg bg-purple-600 hover:bg-purple-700 font-black py-3 px-5 rounded-lg hover:scale-105 duration-300 rounded-full"
+              className="text-white text-lg bg-purple-600 hover:bg-purple-700 font-black py-3 px-5 hover:scale-105 duration-300 rounded-full"
             >
               Login &nbsp;<FontAwesomeIcon icon={faSignInAlt} />
             </button>
