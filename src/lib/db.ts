@@ -6,7 +6,7 @@ import { I_user } from "@/utils/types";
 export const users: I_user[] = [
   {
     username: "admin",
-    balance: 0,
+    balance: 100,
     password: bcrypt.hashSync("admin", 10),
   },
 ];

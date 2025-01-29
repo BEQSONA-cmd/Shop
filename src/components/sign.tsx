@@ -17,7 +17,10 @@ export default function Sign_In({ closeModal }: { closeModal: () => void }) {
     });
   
     if (res.ok)
+    {
+      closeModal();
       router.push("/Profile");
+    }
     else
       alert("Invalid username or password");
   };

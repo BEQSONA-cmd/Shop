@@ -12,7 +12,6 @@ export default function Profile() {
       const token = Cookies.get("authToken");
       if (!token) 
       {
-        console.log("No token found");
         router.push("/");
         return;
       }
