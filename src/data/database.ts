@@ -9,4 +9,9 @@ export const users: I_user[] = [
     balance: 100,
     password: bcrypt.hashSync("admin", 10),
   },
+  {
+    username: "beqa",
+    balance: 99,
+    password: bcrypt.hashSync("beqa", 10),
+  },
 ];

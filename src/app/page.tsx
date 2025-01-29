@@ -1,4 +1,11 @@
 
+// const [num, setNum] = useState(9);
+
+// useEffect(() => {
+//   setNum(10);
+// },[]);
+
+
 export default function Home() 
 {
   return (
