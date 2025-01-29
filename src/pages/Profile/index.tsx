@@ -3,18 +3,21 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 export default function Profile() {
-  const [user, setUser] = useState<{ username: string } | null>(null);
+  const [user, setUser] = useState<{ username: string, balance: number } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     async function checkAuth() {
       const token = Cookies.get("authToken");
-      if (!token) {
+      if (!token) 
+      {
+        console.log("No token found");
         router.push("/");
         return;
       }
 
-      try {
+      try 
+      {
         const res = await fetch("/api/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -22,7 +25,10 @@ export default function Profile() {
 
         const data = await res.json();
         setUser(data.user);
-      } catch {
+      } 
+      catch 
+      {
+        Cookies.remove("authToken");
         router.push("/");
       }
     }
@@ -39,7 +45,7 @@ export default function Profile() {
               <span className="font-semibold">Username:</span> {user.username}
             </p>
             <p className="text-lg mb-6">
-              <span className="font-semibold">Balance:</span> $0.0
+              <span className="font-semibold">Balance:</span> ${user.balance}
             </p>
             <button
               className="w-full bg-red-600 hover:bg-red-700 font-bold py-2 rounded-lg transition-all"

@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { users } from "../../lib/db";
 import { serialize } from "cookie";
 
-const SECRET_KEY = "your_secret_key"; // Change this to a secure key
+const SECRET_KEY = "secret_key";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST")
@@ -13,14 +13,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { username, password } = req.body;
 
   const user = users.find((u) => u.username === username);
-  if (!user || !bcrypt.compareSync(password, user.password)) {
+  if (!user || !bcrypt.compareSync(password, user.password))
     return res.status(401).json({ message: "Invalid username or password" });
-  }
 
-  // Generate JWT token
   const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "1h" });
 
-  // Set token as a cookie
   res.setHeader(
     "Set-Cookie",
     serialize("authToken", token, {
