@@ -24,10 +24,10 @@ export default function RootLayout({ children }: AppProps) {
           <nav className="bg-gray-800 p-4">
             <ul className="container mx-auto flex gap-1 items-center text-lg">
               <li>
-                <a href="/" className="text-white duration-300 hover:bg-gray-700 p-3 rounded-lg">Home</a>
+                <a href="/" className="text-white text-xl duration-300 hover:bg-gray-700 px-4 p-4 rounded-xl font-bold"> Home </a>
               </li>
               <li>
-                <a href="Shop" className="text-white duration-300 hover:bg-gray-700 p-3 rounded-lg">Shop</a>
+                <a href="Shop" className="text-white text-xl duration-300 hover:bg-gray-700 px-4 p-4 rounded-xl font-bold"> Shop </a>
               </li>
               <AuthNav {...{ openModal }} />
             </ul>
@@ -55,7 +55,7 @@ const AuthNav = ({ openModal }: { openModal: () => void }) => {
 
   return isLogged ? (
     <li className="ml-auto">
-      <a href="/Profile" className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-4 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2">
+      <a href="/Profile" className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-6 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2">
         Profile <IoPersonCircleOutline size={32} />
       </a>
     </li>
@@ -63,7 +63,7 @@ const AuthNav = ({ openModal }: { openModal: () => void }) => {
     <li className="ml-auto">
       <button
         onClick={openModal}
-        className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-4 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2"
+        className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-6 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2"
       >
         Login <IoMdLogIn size={32} />
       </button>
