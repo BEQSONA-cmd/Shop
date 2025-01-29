@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { set_logged_in } from "@/components/contexts/client";
 
 export default function Sign_In({ closeModal }: { closeModal: () => void }) {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -19,6 +20,7 @@ export default function Sign_In({ closeModal }: { closeModal: () => void }) {
     if (res.ok)
     {
       closeModal();
+      set_logged_in();
       router.push("/Profile");
     }
     else
@@ -30,9 +32,9 @@ export default function Sign_In({ closeModal }: { closeModal: () => void }) {
       <div className="bg-gray-800 p-8 rounded-lg w-96">
         <div className="relative w-64 h-12 bg-gray-700 rounded-full p-1 flex items-center shadow-lg mx-auto">
           <div
-            className={`absolute top-1 left-0 h-10 w-32 bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-500 
-              ${isSignIn ? "translate-x-0" : "translate-x-32"}`}
-          ></div>
+            className={`absolute top-1 left-0 h-10 w-32 bg-gradient-to-r from-purple-600 to-purple-400 rounded-full transition-all duration-500 -mx-[5px]
+              ${isSignIn ? "translate-x-[12px]" : "translate-x-32"}`}
+          />
           <button
             className={`w-1/2 text-white font-bold z-10 transition-all duration-500 ${
               isSignIn ? "text-white" : "text-gray-400"

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import { set_logged_out } from "@/components/contexts/client";
 
-export default function Profile() {
+export default function Profile() 
+{
   const [user, setUser] = useState<{ username: string, balance: number } | null>(null);
   const router = useRouter();
 
@@ -50,6 +52,7 @@ export default function Profile() {
             <button
               className="w-full bg-red-600 hover:bg-red-700 font-bold py-2 rounded-lg transition-all"
               onClick={() => {
+                set_logged_out();
                 Cookies.remove("authToken");
                 router.push("/");
               }}

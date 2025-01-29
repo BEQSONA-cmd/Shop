@@ -19,7 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse)
   if (!user || !bcrypt.compareSync(password, user.password))
     return res.status(401).json({ message: "Invalid username or password" });
 
-  const token = jwt.sign({ username, balance: user.balance }, SECRET_KEY);
+  const token = jwt.sign({ username: user.username, balance: user.balance }, SECRET_KEY);
 
   res.setHeader(
     "Set-Cookie",
