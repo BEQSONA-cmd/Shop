@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import { set_logged_out } from "@/components/contexts/client";
+import { set_logged_out, set_logged_in } from "@/components/contexts/client";
 
 export default function Profile() 
 {
@@ -27,6 +27,7 @@ export default function Profile()
 
         const data = await res.json();
         setUser(data.user);
+        set_logged_in();
       } 
       catch 
       {

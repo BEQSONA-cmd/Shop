@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { set_logged_in } from "@/components/contexts/client";
 
 export default function Sign_In({ closeModal }: { closeModal: () => void }) {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -20,7 +19,6 @@ export default function Sign_In({ closeModal }: { closeModal: () => void }) {
     if (res.ok)
     {
       closeModal();
-      set_logged_in();
       router.push("/Profile");
     }
     else
