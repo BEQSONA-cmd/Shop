@@ -1,23 +1,23 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
+"use client";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { IoMdLogIn } from "react-icons/io";
 import Sign_In from "@/components/sign";
 import Cookies from "js-cookie";
+import "./globals.css";
 
-export const metadata = {
-  title: 'Template',
-  description: "Welcome to Beqa Tvildiani's personal Template",
-};
+interface AppProps {
+  children: ReactNode;
+}
 
-export default function App({ Component, pageProps }: AppProps) 
-{
+export default function RootLayout({ children }: AppProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [is_logged, setLogged] = useState(false);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const [is_logged, setLogged] = useState(false);
+
 
   useEffect(() => {
     if(Cookies.get("is_logged_in") === "true")
@@ -25,7 +25,8 @@ export default function App({ Component, pageProps }: AppProps)
   },[])
 
   return (
-    <>
+    <html lang="en">
+      <body>
       {/* Shared Navbar */}
       <nav className="bg-gray-800 p-4">
         <ul className="container mx-auto flex gap-1 items-center text-lg">
@@ -51,14 +52,12 @@ export default function App({ Component, pageProps }: AppProps)
               </button>
             </li>
           )}
-
-
         </ul>
       </nav>
       { isModalOpen && <Sign_In closeModal={closeModal} />}
       {/* Main Content */}
-      <main className="bg-gray-900 min-h-[85vh]">
-        <Component {...pageProps} />
+      <main className="bg-gray-900 min-h-[85vh]"> 
+        {children}
       </main>
 
       {/* Footer */}
@@ -67,6 +66,7 @@ export default function App({ Component, pageProps }: AppProps)
           <p>&copy; chxikvia.tech | Design by <a href="https://github.com/BEQSONA-cmd" className="text-blue-400">BEQSONA-cmd</a></p>
         </div>
       </footer>
-    </>
+      </body>
+    </html>
   );
 }

@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { I_user } from "@/utils/types";
+import { I_user } from "@/components/utils/types";
 
 // Fake user database (replace with real DB later)
 

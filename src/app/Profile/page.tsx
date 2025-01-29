@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
 import { set_logged_out, set_logged_in } from "@/components/contexts/client";
 
@@ -7,6 +8,13 @@ export default function Profile()
 {
   const [user, setUser] = useState<{ username: string, balance: number } | null>(null);
   const router = useRouter();
+
+//   const { change } = useLogged();
+
+//   useEffect(() => {
+//     if(Cookies.get("is_logged_in") === "true")
+//       change(true);
+//   },[])
 
   useEffect(() => {
     async function checkAuth() 
