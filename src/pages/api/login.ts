@@ -7,9 +7,8 @@ import { serialize } from "cookie";
 const SECRET_KEY = "your_secret_key"; // Change this to a secure key
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
+  if (req.method !== "POST")
     return res.status(405).json({ message: "Method Not Allowed" });
-  }
 
   const { username, password } = req.body;
 

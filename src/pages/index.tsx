@@ -1,5 +1,6 @@
 
-export default function Home() {
+export default function Home() 
+{
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
       <main className="flex flex-col justify-center items-center">

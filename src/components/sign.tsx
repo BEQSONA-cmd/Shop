@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 
 export default function Sign_In({ closeModal }: { closeModal: () => void }) {
   const [isSignIn, setIsSignIn] = useState(true);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("admin");
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -16,8 +16,11 @@ export default function Sign_In({ closeModal }: { closeModal: () => void }) {
       body: JSON.stringify({ username, password }),
     });
   
-    if (res.ok) 
-      router.push("/Profile");
+    if (res.ok)
+    {
+        console.log("Login successful");
+        router.push("/Profile");
+    }
     else
       alert("Invalid username or password");
   };
