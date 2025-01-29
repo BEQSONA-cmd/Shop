@@ -7,7 +7,8 @@ export default function Profile() {
   const router = useRouter();
 
   useEffect(() => {
-    async function checkAuth() {
+    async function checkAuth() 
+    {
       const token = Cookies.get("authToken");
       if (!token) 
       {
