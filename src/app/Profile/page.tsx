@@ -1,33 +1,24 @@
+// app/Profile/page.tsx
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
-import { set_logged_out, set_logged_in } from "@/components/contexts/client";
+import { useAuth } from "@/components/contexts/AuthContext";
 
-export default function Profile() 
-{
+export default function Profile() {
   const [user, setUser] = useState<{ username: string, balance: number } | null>(null);
   const router = useRouter();
-
-//   const { change } = useLogged();
-
-//   useEffect(() => {
-//     if(Cookies.get("is_logged_in") === "true")
-//       change(true);
-//   },[])
+  const { login, logout } = useAuth();
 
   useEffect(() => {
-    async function checkAuth() 
-    {
+    async function checkAuth() {
       const token = Cookies.get("authToken");
-      if (!token) 
-      {
+      if (!token) {
         router.push("/");
         return;
       }
 
-      try 
-      {
+      try {
         const res = await fetch("/api/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -35,16 +26,15 @@ export default function Profile()
 
         const data = await res.json();
         setUser(data.user);
-        set_logged_in();
-      } 
-      catch 
-      {
+        login();
+      } catch {
         Cookies.remove("authToken");
+        logout();
         router.push("/");
       }
     }
     checkAuth();
-  }, [router]);
+  }, [router, login, logout]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white py-10">
@@ -61,7 +51,7 @@ export default function Profile()
             <button
               className="w-full bg-red-600 hover:bg-red-700 font-bold py-2 rounded-lg transition-all"
               onClick={() => {
-                set_logged_out();
+                logout();
                 Cookies.remove("authToken");
                 router.push("/");
               }}

@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
+import { useAuth } from "@/components/contexts/AuthContext";
+
 
 export default function Sign_In({ closeModal }: { closeModal: () => void }) {
   const [isSignIn, setIsSignIn] = useState(true);
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin");
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +21,7 @@ export default function Sign_In({ closeModal }: { closeModal: () => void }) {
   
     if (res.ok)
     {
+      login();
       closeModal();
       router.push("/Profile");
     }
