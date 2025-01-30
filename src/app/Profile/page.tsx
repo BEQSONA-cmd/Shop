@@ -3,37 +3,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
 import { useAuth } from "@/components/contexts/AuthContext";
+import { I_user } from "@/components/utils/types";
 
 export default function Profile() {
-  const [user, setUser] = useState<{ username: string, balance: number } | null>(null);
   const router = useRouter();
-  const { login, logout } = useAuth();
-
-  useEffect(() => {
-    async function checkAuth() {
-      const token = Cookies.get("authToken");
-      if (!token) {
-        router.push("/");
-        return;
-      }
-
-      try {
-        const res = await fetch("/api/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error("Unauthorized");
-
-        const data = await res.json();
-        setUser(data.user);
-        login();
-      } catch {
-        Cookies.remove("authToken");
-        logout();
-        router.push("/");
-      }
-    }
-    checkAuth();
-  }, [router, login, logout]);
+  const { logout, user } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white py-10">

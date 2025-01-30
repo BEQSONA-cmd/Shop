@@ -1,11 +1,11 @@
 "use client";
-import type { ReactNode } from "react";
+import "./globals.css";
+import { AuthProvider, useAuth } from "@/components/contexts/AuthContext";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { IoMdLogIn } from "react-icons/io";
 import Sign_In from "@/components/sign";
-import "./globals.css";
+import type { ReactNode } from "react";
 import { useState } from "react";
-import { AuthProvider, useAuth } from "@/components/contexts/AuthContext";
 
 interface AppProps {
   children: ReactNode;
@@ -50,8 +50,9 @@ export default function RootLayout({ children }: AppProps) {
   );
 }
 
-const AuthNav = ({ openModal }: { openModal: () => void }) => {
-  const { isLogged, loading } = useAuth();
+const AuthNav = ({ openModal }: { openModal: () => void }) => 
+{
+  const { isLogged, loading, user } = useAuth();
 
   if (loading) 
   {
@@ -63,10 +64,16 @@ const AuthNav = ({ openModal }: { openModal: () => void }) => {
   }
 
   return isLogged ? (
-    <li className="ml-auto">
-      <a href="/Profile" className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-6 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2">
-        Profile <IoPersonCircleOutline size={32} />
+    <li className="ml-auto flex flex-col items-end gap-1">
+      <a
+        href="/Profile"
+        className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-6 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2"
+      >
+        {user?.username} <IoPersonCircleOutline size={32} />
       </a>
+      <p className="text-m text-gray-300">
+        Balance: <span className="font-bold">₮{user?.balance.toFixed(2)}</span>
+      </p>
     </li>
   ) : (
     <li className="ml-auto">

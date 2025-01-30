@@ -2,10 +2,12 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import Cookies from "js-cookie";
+import { I_user } from "../utils/types";
 
 interface AuthContextType {
   isLogged: boolean;
   loading: boolean;
+  user: I_user | null;
   login: () => void;
   logout: () => void;
 }
@@ -15,25 +17,58 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<I_user | null>(null);
 
-  useEffect(() => 
-{
-    setIsLogged(Cookies.get("is_logged_in") === "true");
-    setLoading(false);
+  const fetchUser = async () => {
+    const token = Cookies.get("authToken");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Unauthorized");
+
+      const data = await res.json();
+      setUser(data.user);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+      Cookies.remove("authToken");
+      setIsLogged(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const loggedIn = Cookies.get("is_logged_in") === "true";
+    setIsLogged(loggedIn);
+
+    if (loggedIn) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const login = () => {
     Cookies.set("is_logged_in", "true");
     setIsLogged(true);
+    fetchUser();
   };
 
   const logout = () => {
     Cookies.remove("is_logged_in");
+    Cookies.remove("authToken");
     setIsLogged(false);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLogged, loading, login, logout }}>
+    <AuthContext.Provider value={{ isLogged, loading, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
