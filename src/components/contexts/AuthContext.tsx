@@ -3,6 +3,45 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import Cookies from "js-cookie";
 import { I_user } from "../utils/types";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { IoMdLogIn } from "react-icons/io";
+
+export const AuthNav = ({ openModal }: { openModal: () => void }) => 
+{
+  const { isLogged, loading, user } = useAuth();
+
+  if (loading) 
+  {
+    return (
+      <li className="ml-auto">
+        <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-purple-500"></div>
+      </li>
+    );
+  }
+
+  return isLogged ? (
+    <li className="ml-auto flex flex-col items-end gap-1">
+      <a
+        href="/Profile"
+        className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-6 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2"
+      >
+        {user?.username} <IoPersonCircleOutline size={32} />
+      </a>
+      <p className="text-m text-gray-300">
+        Balance: <span className="font-bold">₮{user?.balance.toFixed(2)}</span>
+      </p>
+    </li>
+  ) : (
+    <li className="ml-auto">
+      <button
+        onClick={openModal}
+        className="bg-purple-600 hover:bg-purple-700 font-black py-3 px-6 hover:scale-105 duration-300 rounded-full flex text-xl items-center gap-2"
+      >
+        Login <IoMdLogIn size={32} />
+      </button>
+    </li>
+  );
+};
 
 interface AuthContextType {
   isLogged: boolean;
