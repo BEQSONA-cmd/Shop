@@ -3,3 +3,11 @@ export interface I_user {
     balance: number;
     password: string;
 }
+
+export interface Product {
+    id: number;
+    name: string;
+    price: number;
+    category: string;
+    image: string;
+}

@@ -51,7 +51,16 @@ export default function RootLayout({ children }: AppProps) {
 }
 
 const AuthNav = ({ openModal }: { openModal: () => void }) => {
-  const { isLogged } = useAuth();
+  const { isLogged, loading } = useAuth();
+
+  if (loading) 
+  {
+    return (
+      <li className="ml-auto">
+        <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-purple-500"></div>
+      </li>
+    );
+  }
 
   return isLogged ? (
     <li className="ml-auto">

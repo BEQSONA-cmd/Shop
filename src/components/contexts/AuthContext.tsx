@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 
 interface AuthContextType {
   isLogged: boolean;
+  loading: boolean;
   login: () => void;
   logout: () => void;
 }
@@ -13,10 +14,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLogged, setIsLogged] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => 
 {
     setIsLogged(Cookies.get("is_logged_in") === "true");
+    setLoading(false);
   }, []);
 
   const login = () => {
@@ -30,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLogged, login, logout }}>
+    <AuthContext.Provider value={{ isLogged, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
