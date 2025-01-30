@@ -12,9 +12,18 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => 
 {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
   const { isLogged } = useAuth();
+
+  const openModal = () =>
+  {
+    if (isLogged)
+      alert("bought: " + product.name);
+    else
+      setIsModalOpen(true);
+  }
+
+
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow-lg flex flex-col items-center">
@@ -22,7 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) =>
       <h2 className="text-xl font-bold mt-2">{product.name}</h2>
       <p className="text-gray-400">${product.price}</p>
       <button 
-        onClick={() => !isLogged && openModal()}
+        onClick={openModal}
         className="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">
         Buy Now
       </button>
