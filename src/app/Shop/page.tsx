@@ -4,24 +4,51 @@ import { Product } from "@/components/utils/types";
 import { products } from "@/data/database";
 import Sign_In from "@/components/sign";
 import { useAuth } from "@/components/contexts/AuthContext";
+import Cookies from "js-cookie";
 
 interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => 
-{
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLogged } = useAuth();
+  const { isLogged, balance, setBalance } = useAuth();
 
-  const openModal = () =>
+  const try_pay = async () => 
   {
-    if (isLogged)
-      alert("bought: " + product.name);
+    if (isLogged) 
+    {
+      try {
+        if (balance < product.price) {
+          alert("Insufficient balance to buy this product.");
+          return;
+        }
+
+        const newBalance = balance - product.price;
+
+        const updateRes = await fetch("/api/update-balance", {
+          method: "POST",
+          headers: { "Content-Type": "application/json",
+            "authorization": `Bearer ${Cookies.get("authToken")}`
+           },
+          body: JSON.stringify({ newBalance }),
+        });
+
+        if (!updateRes.ok)
+          throw new Error("Failed to update balance");
+
+        setBalance(newBalance);
+        alert(`Successfully bought: ${product.name}. Your new balance is $${newBalance.toFixed(2)}`);
+      } 
+      catch (error) 
+      {
+        console.error("Error during purchase:", error);
+        alert("An error occurred while processing your purchase.");
+      }
+    } 
     else
       setIsModalOpen(true);
-  }
-
+  };
 
   const closeModal = () => setIsModalOpen(false);
 
@@ -30,12 +57,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) =>
       <img src={product.image} alt={product.name} className="w-32 h-32 object-cover rounded-lg" />
       <h2 className="text-xl font-bold mt-2">{product.name}</h2>
       <p className="text-gray-400">${product.price}</p>
-      <button 
-        onClick={openModal}
-        className="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">
+      <button
+        onClick={try_pay}
+        className="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg"
+      >
         Buy Now
       </button>
-      { isModalOpen && <Sign_In closeModal={closeModal} />}
+      {isModalOpen && <Sign_In closeModal={closeModal} />}
     </div>
   );
 };

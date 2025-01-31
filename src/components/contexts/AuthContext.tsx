@@ -8,7 +8,7 @@ import { IoMdLogIn } from "react-icons/io";
 
 export const AuthNav = ({ openModal }: { openModal: () => void }) => 
 {
-  const { isLogged, loading, user } = useAuth();
+  const { isLogged, loading, user, balance } = useAuth();
 
   if (loading) 
   {
@@ -28,7 +28,7 @@ export const AuthNav = ({ openModal }: { openModal: () => void }) =>
         {user?.username} <IoPersonCircleOutline size={32} />
       </a>
       <p className="text-m text-gray-300">
-        Balance: <span className="font-bold">₮{user?.balance.toFixed(2)}</span>
+        Balance: <span className="font-bold">${balance.toFixed(2)}</span>
       </p>
     </li>
   ) : (
@@ -47,6 +47,8 @@ interface AuthContextType {
   isLogged: boolean;
   loading: boolean;
   user: I_user | null;
+  balance: number;
+  setBalance: (balance: number) => void
   login: () => void;
   logout: () => void;
 }
@@ -57,6 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<I_user | null>(null);
+  const [balance, setBalance] = useState(0);
 
   const fetchUser = async () => 
   {
@@ -76,6 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await res.json();
       setUser(data.user);
+      setBalance(data.user.balance);
     } 
     catch (error) 
     {
@@ -98,7 +102,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
   }, []);
 
-  const login = () => {
+  const login = () => 
+  {
     Cookies.set("is_logged_in", "true");
     setIsLogged(true);
     fetchUser();
@@ -112,7 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLogged, loading, user, login, logout }}>
+    <AuthContext.Provider value={{ isLogged, loading, user, login, logout, balance, setBalance }}>
       {children}
     </AuthContext.Provider>
   );

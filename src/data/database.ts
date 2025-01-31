@@ -2,18 +2,18 @@ import bcrypt from "bcryptjs";
 import { I_user } from "@/components/utils/types";
 import { Product } from "@/components/utils/types";
 
-export const users: I_user[] = [
-  {
-    username: "admin",
-    balance: 1000,
-    password: bcrypt.hashSync("admin", 10),
-  },
-  {
-    username: "beqa",
-    balance: 7232154.64,
-    password: bcrypt.hashSync("beqa", 10),
-  },
-];
+// export const users: I_user[] = [
+//   {
+//     username: "admin",
+//     balance: 1000,
+//     password: bcrypt.hashSync("admin", 10),
+//   },
+//   {
+//     username: "beqa",
+//     balance: 7232154.64,
+//     password: bcrypt.hashSync("beqa", 10),
+//   },
+// ];
 
 export const products: Product[] = 
 [
