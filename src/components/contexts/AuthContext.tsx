@@ -58,14 +58,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<I_user | null>(null);
 
-  const fetchUser = async () => {
-    const token = Cookies.get("authToken");
-    if (!token) {
+  const fetchUser = async () => 
+  {
+    const token = Cookies.get("authToken"); 
+    if (!token) 
+    {
       setLoading(false);
       return;
     }
 
-    try {
+    try 
+    {
       const res = await fetch("/api/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -73,7 +76,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await res.json();
       setUser(data.user);
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       console.error("Failed to fetch user data:", error);
       Cookies.remove("authToken");
       setIsLogged(false);
@@ -82,15 +87,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => 
+  {
     const loggedIn = Cookies.get("is_logged_in") === "true";
     setIsLogged(loggedIn);
 
-    if (loggedIn) {
+    if (loggedIn)
       fetchUser();
-    } else {
+    else
       setLoading(false);
-    }
   }, []);
 
   const login = () => {
@@ -115,8 +120,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (context === undefined)
     throw new Error("useAuth must be used within an AuthProvider");
-  }
   return context;
 };

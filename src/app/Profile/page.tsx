@@ -1,9 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Cookies from "js-cookie";
 import { useAuth } from "@/components/contexts/AuthContext";
-import { I_user } from "@/components/utils/types";
 
 export default function Profile() {
   const router = useRouter();
